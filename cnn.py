@@ -8,10 +8,11 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 import numpy as np
+import pandas as pd
 
 batch_size = 128
 num_classes = 10
-epochs = 12
+epochs = 2
 
 # input image dimensions
 img_rows, img_cols = 28, 28
@@ -72,5 +73,9 @@ train_score = model.evaluate(x_train, y_train, verbose=0)
 # test_score = model.evaluate(x_test, y_test, verbose=0)
 print('Train loss:', train_score[0])
 print('Train accuracy:', train_score[1])
+submit = pd.DataFrame(data={"ImageId": [],
+                            "Label": []})
+predicts = np.argmax(model.predict(x_test), axis=1)
 # print('Test loss:', test_score[0])
 # print('Test accuracy:', test_score[1])
+submit.to_csv("data/submission.csv")
